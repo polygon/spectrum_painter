@@ -63,7 +63,7 @@ hackrf_transfer -t smiley.iqhackrf -f 2450000000 -b 1750000 -s 1000000 -x 20 -a 
 Convert the smiley example for the BladeRF
 
 ```
-img2iqstream -s 1000000 -l 0.004 -o smiley.iqhackrf --format hackrf examples/smiley.png
+img2iqstream -s 1000000 -l 0.004 -o smiley.iqblade --format bladerf examples/smiley.png
 ```
 
 The output can be used in bladeRF-cli with bin format.
