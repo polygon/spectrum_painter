@@ -25,7 +25,7 @@ Afterwards, the _img2iqstream_ is available from everywhere.
 Here is the program help, also available using _img2iqstream --help_.
 
 ```
-age: img2iqstream [OPTIONS] [SRCS]...
+Usage: img2iqstream [OPTIONS] [SRCS]...
 
 Options:
   -s, --samplerate INTEGER        Samplerate of the radio
@@ -42,7 +42,7 @@ Options:
  * Format selects the output formatter. There is support for bladerf and hackrf radio formats as well as raw I/Q interleaved 32-bit float samples.
  * You can pass multiple images to the program which will all be converted and written to the output.
 
-The FFT adapts to the image size. However, I've not tried what happens for very wide or narrow images. Pictures with a horizontal resolution between like 512-2048 images seem to work fine, though. Only the first color channel of the image is used, so images should be black and white. 
+The FFT adapts to the image size. However, I've not tried what happens for very wide or narrow images. Pictures with a horizontal resolution between about 512-2048 pixels seem to work fine, though. Only the first color channel of the image is used, so images should be black and white. 
 
 ### HackRF Example
 
