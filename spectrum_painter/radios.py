@@ -32,33 +32,45 @@ class Radio(object):
     def transmit(self, complex_iq):
         raise NotImplementedError('transmit not implemented for this radio')
 
-    def receive(self, num_samples):
-        raise NotImplementedError('receive not implemented for this radio')
-
     def convert(self, complex_iq):
         raise NotImplementedError('convert not implemented for this radio')
 
 
-class BladeOut(Radio):
+class GenericFloat(Radio):
+    """
+    Generic interleaved float32 output for custom conversions
+    """
+    def convert(self, complex_iq):
+        return self._interleave(complex_iq)
+
+
+class Bladerf(Radio):
+    """
+    Creates BladeRf formatted samples
+    """
+    def convert(self, complex_iq):
+        intlv = self._interleave(complex_iq)
+        clipped = self._clip(intlv, limit=1.0)
+        converted = 2047. * clipped
+        bladerf_out = converted.astype(np.int16)
+        return bladerf_out
+
+
+class BladeOut(GenericFloat):
+    """
+    To be used with the bladeout tool, available on GitHub
+    """
     def __init__(self):
         super(BladeOut, self).__init__()
         self.txvga1 = -15
         self.txvga2 = 20
 
     def transmit(self, complex_iq):
-        intlv = self._interleave(complex_iq)
+        intlv = self.convert(complex_iq)
         bladeout = Popen(['bladeout', '-f', str(self.frequency), '-r', str(self.samplerate), '-b', str(self.bandwidth),
                           '-g', str(self.txvga1), '-G', str(self.txvga2)], stdin=PIPE, stdout=PIPE, stderr=PIPE)
         stdout = bladeout.communicate(input=intlv.tostring())
         return stdout
-
-    def tofile(self, filename, complex_iq):
-        intlv = self._interleave(complex_iq)
-        with open(filename, 'wb') as fout:
-            fout.write(intlv.tostring())
-
-    def convert(self, complex_iq):
-        return self._interleave(complex_iq)
 
 
 class Hackrf(Radio):
@@ -71,28 +83,20 @@ class Hackrf(Radio):
     def convert(self, complex_iq):
         intlv = self._interleave(complex_iq)
         clipped = self._clip(intlv)
-        converted = 127. * (clipped + 1.0)
-        hackrf_out = converted.astype(np.uint8)
+        converted = 127. * clipped
+        hackrf_out = converted.astype(np.int8)
         return hackrf_out
 
     def transmit(self, complex_iq):
-        hackrf_out = self._convert(complex_iq)
+        hackrf_out = self.convert(complex_iq)
         pipe_file = mktemp()
         os.mkfifo(pipe_file)
         hackout = Popen(['hackrf_transfer', '-f', str(self.frequency), '-s', str(self.samplerate), '-b', str(self.bandwidth),
                           '-x', str(self.txvga), '-t', pipe_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        print "post-call"
         pipe = open(pipe_file, 'wb')
-        print "post-pipe"
         pipe.write(hackrf_out)
-        print "post-write"
         pipe.close()
         hackout.wait()
         sout = hackout.communicate()
         os.unlink(pipe_file)
         return sout
-
-    def tofile(self, filename, complex_iq):
-        intlv = self._convert(complex_iq)
-        with open(filename, 'wb') as fout:
-            fout.write(intlv.tostring())

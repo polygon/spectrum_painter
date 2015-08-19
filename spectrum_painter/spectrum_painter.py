@@ -14,14 +14,24 @@ class SpectrumPainter(object):
 
     def convert_image(self, filename):
         pic = img.imread(filename)
-        if pic.shape[1] != self.NFFT/2:
-            raise ValueError('Picture width (%i) must match FFT size (%i)' % (pic.size[1], self.NFFT))
-        ffts = (np.flipud(np.repeat(pic[:, :, 0], self.repetitions, axis=0) / 16.)**2.) / 256.
-        fftall = np.zeros((ffts.shape[0], self.NFFT))
-        fftall[:, self.NFFT/4:-self.NFFT/4] = ffts
+        # Set FFT size to be double the image size so that the edge of the spectrum stays clear
+        # preventing some bandfilter artifacts
+        self.NFFT = 2*pic.shape[1]
 
+        # Repeat image lines until each one comes often enough to reach the desired line time
+        ffts = (np.flipud(np.repeat(pic[:, :, 0], self.repetitions, axis=0) / 16.)**2.) / 256.
+
+        # Embed image in center bins of the FFT
+        fftall = np.zeros((ffts.shape[0], self.NFFT))
+        startbin = int(self.NFFT/4)
+        fftall[:, startbin:(startbin+pic.shape[1])] = ffts
+
+        # Generate random phase vectors for the FFT bins, this is important to prevent high peaks in the output
+        # The phases won't be visible in the spectrum
         phases = 2*np.pi*np.random.rand(*fftall.shape)
         rffts = fftall * np.exp(1j*phases)
+
+        # Perform the FFT per image line, then concatenate them to form the final signal
         timedata = np.fft.ifft(np.fft.ifftshift(rffts, axes=1), axis=1) / np.sqrt(float(self.NFFT))
         linear = timedata.flatten()
         linear = linear / np.max(np.abs(linear))
