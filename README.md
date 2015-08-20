@@ -58,6 +58,8 @@ Then transmit using _hackrf_transfer_.
 hackrf_transfer -t smiley.iqhackrf -f 2450000000 -b 1750000 -s 1000000 -x 20 -a 1
 ```
 
+*NOTE:* I've got some reports that the above does not work with some original HackRF boards. Increasing the samplerate and bandwidth to 8 MHz seems to help in that case. If you have a rad1obadge, the lines above should work.
+
 ### BladeRF Example
 
 Convert the smiley example for the BladeRF
