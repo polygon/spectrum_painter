@@ -6,6 +6,16 @@ A tool to converts images to IQ streams that look like this when viewed in a wat
 
 ## Setup
 
+### Dependencies
+
+The following packages are required:
+
+ * [click](http://click.pocoo.org)
+ * [numpy](http://www.numpy.org/)
+ * [scipy](http://www.scipy.org/)
+ 
+### Installation
+
 Installation is not required. You can run the program from the root directory of the repository using
 
 ```

@@ -6,6 +6,8 @@ setup(
     py_modules=['spectrum_painter'],
     install_requires=[
         'Click',
+        'numpy',
+        'scipy',
     ],
     entry_points='''
         [console_scripts]
