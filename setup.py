@@ -8,6 +8,7 @@ setup(
         'Click',
         'numpy',
         'scipy',
+        'imageio',
     ],
     entry_points='''
         [console_scripts]

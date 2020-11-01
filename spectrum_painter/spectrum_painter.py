@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.ndimage as img
+import imageio as img
 
 
 class SpectrumPainter(object):
