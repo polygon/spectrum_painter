@@ -1,0 +1,7 @@
+// Python things
+__pycache__
+*.pyc
+
+// Nix things
+result
+result-*
