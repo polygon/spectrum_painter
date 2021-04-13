@@ -3,15 +3,14 @@ from setuptools import setup
 setup(
     name='spectrum_painter',
     version='0.1',
-    py_modules=['spectrum_painter'],
+    packages=['spectrum_painter'],
     install_requires=[
         'Click',
         'numpy',
-        'scipy',
         'imageio',
     ],
     entry_points='''
         [console_scripts]
-        img2iqstream=spectrum_painter.img2iqstream:img2iqstream
+        spectrum_painter=spectrum_painter.img2iqstream:img2iqstream
     ''',
 )
