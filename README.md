@@ -12,14 +12,14 @@ The following packages are required:
 
  * [click](http://click.pocoo.org)
  * [numpy](http://www.numpy.org/)
- * [scipy](http://www.scipy.org/)
+ * [imageio](https://github.com/imageio/imageio)
  
 ### Installation
 
 Installation is not required. You can run the program from the root directory of the repository using
 
 ```
-python spectrum_painter/img2iqstream.py
+python3 -m spectrum_painter.img2iqstream
 ```
 
 If you want the program to be globally executable, you can install with pip. I recommend a developer install. From the root of the repository, this is done (for the current user) by

@@ -1,6 +1,6 @@
 import click
-from radios import GenericFloat, Bladerf, Hackrf
-from spectrum_painter import SpectrumPainter
+from spectrum_painter.radios import GenericFloat, Bladerf, Hackrf
+from spectrum_painter.spectrum_painter import SpectrumPainter
 
 FORMATTERS = {'float': GenericFloat, 'bladerf': Bladerf, 'hackrf': Hackrf}
 
