@@ -2,6 +2,15 @@
 __pycache__
 *.pyc
 
+// My devenv
+*.iq
+*.iqhackrf
+*.egg-info
+.direnv
+.idea
+.ipynb_checkpoints
+notebooks
+
 // Nix things
 result
 result-*
