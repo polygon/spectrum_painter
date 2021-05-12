@@ -19,7 +19,7 @@ The following packages are required:
 Installation is not required. You can run the program from the root directory of the repository using
 
 ```
-python3 -m spectrum_painter.spectrum_painter
+python3 -m spectrum_painter.img2iqstream
 ```
 
 If you want the program to be globally executable, you can install it with pip. I recommend a developer install. From the root of the repository, this is done (for the current user) by
