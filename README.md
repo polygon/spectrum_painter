@@ -19,23 +19,35 @@ The following packages are required:
 Installation is not required. You can run the program from the root directory of the repository using
 
 ```
-python3 -m spectrum_painter.img2iqstream
+python3 -m spectrum_painter.spectrum_painter
 ```
 
-If you want the program to be globally executable, you can install with pip. I recommend a developer install. From the root of the repository, this is done (for the current user) by
+If you want the program to be globally executable, you can install it with pip. I recommend a developer install. From the root of the repository, this is done (for the current user) by
 
 ```
 pip install --user -e .
 ```
 
-Afterwards, the _img2iqstream_ is available from everywhere.
+Afterwards, _spectrum\_painter_ is available from everywhere.
+
+### Nix
+
+A Nix Flake is now available. If you have a Nix system with flakes enabled, you can just run
+
+```
+nix shell github:/polygon/spectrum_painter
+```
+
+to get a shell with _spectrum\_painter_ available.
+
+For Nix systems without flakes, _default.nix_ and _shell.nix_ are available as shims using flake-compat.
 
 ## Usage
 
-Here is the program help, also available using _img2iqstream --help_.
+Here is the program help, also available using _spectrum\_painter --help_.
 
 ```
-Usage: img2iqstream [OPTIONS] [SRCS]...
+Usage: spectrum_painter [OPTIONS] [SRCS]...
 
 Options:
   -s, --samplerate INTEGER        Samplerate of the radio
@@ -59,7 +71,7 @@ The FFT adapts to the image size. However, I've not tried what happens for very 
 Convert the smiley example for the HackRF.
 
 ```
-img2iqstream -s 1000000 -l 0.004 -o smiley.iqhackrf --format hackrf examples/smiley.png
+spectrum_painter -s 1000000 -l 0.004 -o smiley.iqhackrf --format hackrf examples/smiley.png
 ```
 
 Then transmit using _hackrf_transfer_.
@@ -75,7 +87,7 @@ hackrf_transfer -t smiley.iqhackrf -f 2450000000 -b 1750000 -s 1000000 -x 20 -a 
 Convert the smiley example for the BladeRF
 
 ```
-img2iqstream -s 1000000 -l 0.004 -o smiley.iqblade --format bladerf examples/smiley.png
+spectrum_painter -s 1000000 -l 0.004 -o smiley.iqblade --format bladerf examples/smiley.png
 ```
 
 The output can be used in bladeRF-cli with bin format.
