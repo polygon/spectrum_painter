@@ -15,7 +15,7 @@
           imageio
         ]);
     
-        Packages.spectrum_painter = pkgs.python3.pkgs.buildPythonPackage rec {
+        packages.spectrum_painter = pkgs.python3.pkgs.buildPythonPackage rec {
           pname = "spectrum_painter";
           version = "0.1.0";
         
@@ -28,5 +28,6 @@
         };
 
         devShell = pkgs.mkShell { buildInputs = [ python_env ]; };
+        defaultPackage = packages.spectrum_painter;
       });
 }
