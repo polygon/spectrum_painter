@@ -28,6 +28,7 @@ class SpectrumPainter(object):
 
         # Generate random phase vectors for the FFT bins, this is important to prevent high peaks in the output
         # The phases won't be visible in the spectrum
+        np.random.seed(0)
         phases = 2*np.pi*np.random.rand(*fftall.shape)
         rffts = fftall * np.exp(1j*phases)
 

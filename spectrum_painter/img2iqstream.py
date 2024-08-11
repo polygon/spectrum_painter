@@ -19,7 +19,7 @@ def img2iqstream(samplerate, linetime, output, format, srcs):
     for src in srcs:
         iq_samples = painter.convert_image(src)
         target_format = formatter.convert(iq_samples)
-        output.write(target_format.tostring())
+        output.write(target_format.tobytes())
 
 
 if __name__ == '__main__':
