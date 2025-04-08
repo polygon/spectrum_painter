@@ -100,3 +100,31 @@ class Hackrf(Radio):
         sout = hackout.communicate()
         os.unlink(pipe_file)
         return sout
+
+class Plutosdr(Radio):
+    def __init__(self):
+        super(Plutosdr, self).__init__()
+        self.txvga = 0
+        self.rxvga = 0
+        self.rxlna = 0
+
+    def convert(self, complex_iq):
+        intlv = self._interleave(complex_iq)
+        clipped = self._clip(intlv)
+        converted = 127. * clipped
+        plutosdr_out = converted.astype(np.int16)
+        return plutosdr_out
+
+    def transmit(self, complex_iq):
+        plutosdr_out = self.convert(complex_iq)
+        pipe_file = mktemp()
+        os.mkfifo(pipe_file)
+        plutoout = Popen(['tx_sdr', '-f', str(self.frequency), '-s', str(self.samplerate), '-B', str(self.bandwidth),
+                          '-F', 'CS16', '-g', 70, pipe_file], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        pipe = open(pipe_file, 'wb')
+        pipe.write(plutosdr_out)
+        pipe.close()
+        plutoout.wait()
+        sout = plutoout.communicate()
+        os.unlink(pipe_file)
+        return sout

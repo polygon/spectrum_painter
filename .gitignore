@@ -1,9 +1,14 @@
 // Python things
 __pycache__
 *.pyc
+.venv
+build
 
 // My devenv
 *.iq
+*.cs16
+*.cf32
+*.cs8
 *.iqhackrf
 *.egg-info
 .direnv

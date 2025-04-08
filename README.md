@@ -53,7 +53,7 @@ Options:
   -s, --samplerate INTEGER        Samplerate of the radio
   -l, --linetime FLOAT            Time for each line to show
   -o, --output FILENAME           File to write to (default: stdout)
-  --format [float|bladerf|hackrf]
+  --format [float|bladerf|hackrf|plutosdr]
                                   Output format of samples
   --help                          Show this message and exit.
 ```
@@ -61,7 +61,7 @@ Options:
  * Samplerate is what you will configure in your radio later. About half of that bandwidth is actually used for the image. The edges are left free since I've seen some pretty ugly bandfilter effects sometimes.
  * Linetime is the time in seconds that each line of your images will display. Experiment a bit here, usually a good starting value is around 0.005 - 0.01.
  * Output is the file to write to. Per default this is stdout.
- * Format selects the output formatter. There is support for bladerf and hackrf radio formats as well as raw I/Q interleaved 32-bit float samples.
+ * Format selects the output formatter. There is support for bladerf, hackrf, and plutosdr radio formats as well as raw I/Q interleaved 32-bit float samples.
  * You can pass multiple images to the program which will all be converted and written to the output.
 
 The FFT adapts to the image size. However, I've not tried what happens for very wide or narrow images. Pictures with a horizontal resolution between about 512-2048 pixels seem to work fine, though. Only the first color channel of the image is used, so images should be black and white. 
